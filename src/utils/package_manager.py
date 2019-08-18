@@ -18,10 +18,11 @@ class PackageJsonObj:
 
 class PackageManager:
     def __init__(self, package_root_path: str):
-        assert os.path.exists(package_root_path), "Package root does not exist."
+        if not os.path.exists(package_root_path):
+             print("Package root does not exist.")
+
         self.package_root_path = package_root_path
-        self.package_json_path = os.path.join(
-            package_root_path, "package.json")
+        self.package_json_path = os.path.join(package_root_path, "package.json")
 
     def package_json_exists(self):
         return os.path.exists(self.package_json_path)
