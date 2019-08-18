@@ -30,13 +30,13 @@ try:
         print("\t2. Clean -> publish (will erase all changes)")
         opt = input("Pick an index: ")
 
-        if opt is 0:
+        if opt is '0':
             raise Exception("Cancelled by user.")
-        elif opt is 1:
+        elif opt is '1':
             git.commitAll("!!! TEMP COMMIT CREATED BY git-upm-publisher, WILL BE SOFT RESET !!!")
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
             git.softResetLastCommit()
-        elif opt is 2:
+        elif opt is '2':
             git.clean()
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
         else:
