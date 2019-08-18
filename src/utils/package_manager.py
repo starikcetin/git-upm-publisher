@@ -5,15 +5,15 @@ import jsonpickle
 
 class PackageJsonObj:
     def __init__(self, package_name: str, display_name: str, unity_min_version: str, description: str, version: str, dependencies: dict):
-        self.Name = package_name
-        self.DisplayName = display_name
+        self.name = package_name
+        self.displayName = display_name
 
         if unity_min_version != "":
-            self.Unity = unity_min_version
+            self.unity = unity_min_version
 
-        self.Description = description
-        self.Version = version
-        self.Dependencies = dependencies
+        self.description = description
+        self.version = version
+        self.dependencies = dependencies
 
 
 class PackageManager:
