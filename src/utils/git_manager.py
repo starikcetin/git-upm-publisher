@@ -35,8 +35,10 @@ class Git():
 
     def clean(self):
         print("Cleaning")
-        print("Stashing all")
-        self.repo.git.stash("save", "backup stash before repo clean by git-upm-publisher " + str(datetime.now()))
+        print("Stashing everything (just in case)")
+        stash_name = "backup stash before repo clean by git-upm-publisher " + str(datetime.now())
+        self.repo.git.stash("save", stash_name)
+        print("Stash name: " + stash_name)
 
         if self.is_dirty():
             print("Still dirty after stash, doing a hard reset")

@@ -32,7 +32,8 @@ try:
         if opt is '0':
             raise Exception("Cancelled by user.")
         elif opt is '1':
-            git.commitAll("!!! TEMP COMMIT CREATED BY git-upm-publisher, WILL BE SOFT RESET !!!")
+            temp_commit_message = "!!! TEMP COMMIT CREATED BY git-upm-publisher, WILL BE SOFT RESET !!!\n\nThis commit should be gone after everything is done, if you see it in your repository after publisher is done, something went wrong. Send me a bug report over GitHub.\n\nYou can manually soft-reset this commit if you wish."
+            git.commitAll(temp_commit_message)
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
             git.softResetLastCommit()
         elif opt is '2':
