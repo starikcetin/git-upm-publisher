@@ -22,12 +22,18 @@ try:
         elif(property_to_change == "s"):
             break
 
-        current_value = jsonObj.get(property_to_change)
-        print("Current value: " + str(current_value))
+        try:
+            current_value = jsonObj.get(property_to_change)
+            print("Current value: " + str(current_value))
+        except:
+            print("Key not found.")
+            continue
+
         new_value = input("New value: ")
         jsonObj.set(property_to_change, new_value)
 
     pm.save(jsonObj)
+    print("Done.")
     
 
 except Exception as exc:
