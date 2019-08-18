@@ -7,6 +7,7 @@ class Git():
     def __init__(self, repo_root_path):
         self.repo_root_path = repo_root_path
         self.dotgit_path = os.path.join(repo_root_path, ".git/")
+        assert os.path.exists(self.dotgit_path), "Cannot find the .git folder (are you sure the repo root is correct in the config.json?)"
         self.repo = Repo(repo_root_path)
 
     def is_dirty(self):
@@ -35,7 +36,7 @@ class Git():
     def clean(self):
         print("Cleaning")
         print("Stashing all")
-        self.repo.git.stash("backup stash before repo clean by git-upm-publisher " + str(datetime.now()))
+        self.repo.git.stash("save", "backup stash before repo clean by git-upm-publisher " + str(datetime.now()))
 
         if self.is_dirty():
             print("Still dirty after stash, doing a hard reset")

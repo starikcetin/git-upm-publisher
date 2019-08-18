@@ -1,3 +1,4 @@
 {
-    "package_root_path" : "Assets/package/"
+    "package_root_path" : "../git-upm-publisher-test/Assets/package/",
+    "repo_root_path": ".."
 }

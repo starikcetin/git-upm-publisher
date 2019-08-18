@@ -5,8 +5,7 @@ try:
     import os
 
     config = Config()
-    cwd = os.getcwd()
-    git = Git(cwd)
+    git = Git(config.repo_root_path())
     pm = PackageManager(config.package_root_path())
 
     package = pm.read()
