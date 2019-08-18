@@ -8,3 +8,4 @@ class Config:
 
     def package_root_path(self):
         return self.config["package_root_path"]
+        
