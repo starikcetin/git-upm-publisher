@@ -23,9 +23,9 @@ class Git():
 
     def publish(self, package_root_path, commit_message, branch_name, version_tag):
         print("Publishing")
-        print("branch before publish: " + self.repo.active_branch.name())
+        print("branch before publish: " + self.repo.active_branch.name)
         self.repo.git.snapshot("--prefix= " + package_root_path, "--message='" + commit_message + "'", "--branch=" + branch_name)
-        print("branch after publish: " + self.repo.active_branch.name())
+        print("branch after publish: " + self.repo.active_branch.name)
         self.tag(branch_name, version_tag, version_tag)
 
     def softResetLastCommit(self):

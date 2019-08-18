@@ -20,8 +20,7 @@ try:
     
     if shouldPush is 'y':
         git.fetch()
-
-    print(git.status())
+        print(git.status())
 
     if git.is_dirty():
         print("You have outstanding changes in your repository.")
@@ -50,10 +49,9 @@ try:
 
     if shouldPush is 'y':
         git.pushAll()
-
-    print(git.status())
+        print(git.status())
 
 except Exception as ex:
-    print("Error: " + ex)
+    print("Error: " + str(ex))
 
 input("Press any key to exit.")
