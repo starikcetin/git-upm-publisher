@@ -68,7 +68,11 @@ class PackageManager:
 
     def read(self):
         with open(self.package_json_path, "r") as fp:
-            json = jsonpickle.decode(fp.read())
+            json = None
+            try:
+                json = jsonpickle.decode(fp.read())
+            except Exception as ex:
+                raise Exception("package.json file is not valid JSON (" + str(ex) + ")")
             jsonObj = PackageJsonObj()
             jsonObj.initFromDict(json)
             return jsonObj
