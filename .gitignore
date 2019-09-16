@@ -1,6 +1,7 @@
 ## Project specific
 
 src/package
+src/config.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
