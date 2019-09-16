@@ -28,4 +28,9 @@ def make_relative(path, anchor):
         path = Path(path)
     if anchor is not Path:
         anchor = Path(anchor)
-    return path.relative_to(anchor)
+
+    if anchor in path.parents:
+        return path.relative_to(anchor)
+    else:
+        print("Error while making the path relative: Anchor is not a parent directory of path. Returning absolute.")
+        return path.absolute()

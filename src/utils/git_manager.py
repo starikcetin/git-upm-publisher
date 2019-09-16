@@ -1,7 +1,9 @@
+from pathlib import Path
 from git import Repo
 import os
 from datetime import datetime
-from subprocess import call
+#import subprocess
+
 
 class Git():
     def __init__(self, repo_root_path):
@@ -20,12 +22,23 @@ class Git():
     def commitAll(self, message):
         print("Comitting all")
         self.repo.git.add("--all")
-        self.repo.git.commit("-m", message)
+        self.repo.git.commit("-m", "\"" + message + "\"")
 
     def publish(self, package_root_path, commit_message, branch_name, version_tag):
         print("Publishing")
         print("branch before publish: " + self.repo.active_branch.name)
-        self.repo.git.snapshot("--prefix= " + package_root_path, "--message='" + commit_message + "'", "--branch=" + branch_name)
+        
+        package_root_path = Path(package_root_path).absolute()
+
+        # original_cwd = os.getcwd()
+        # print("Changing CWD...")
+        # os.chdir(self.repo_root_path)
+        # print("CWD: " + os.getcwd())
+        # subprocess.run(["git", "snapshot", "--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name])
+        # os.chdir(original_cwd)
+
+        self.repo.git.snapshot("--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name)
+        
         print("branch after publish: " + self.repo.active_branch.name)
         self.tag(branch_name, version_tag, version_tag)
 

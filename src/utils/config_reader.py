@@ -1,9 +1,15 @@
 import json
 import os
 
+
 class Config:
     def __init__(self):
-        self.read()
+        if self.exists():
+            print("Loading the config.json")
+            self.read()
+        else:
+            print("config.json file doesn't exist")
+            self.config = {}
 
     def package_root_path(self, value=None):
         if value is not None:
@@ -24,3 +30,6 @@ class Config:
     def save(self):
         with open("config.json", "w+") as config_file:
             config_file.write(json.dumps(self.config, indent=4, sort_keys=True))
+
+    def exists(self):
+        return os.path.exists("config.json")
