@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 def pattern(pattern_, path):
     for filename in Path(path).glob(pattern_):
@@ -25,12 +26,13 @@ def directory_of_file(file):
 
 def make_relative(path, anchor):
     if path is not Path:
-        path = Path(path)
+        path = Path(path).absolute()
     if anchor is not Path:
-        anchor = Path(anchor)
+        anchor = Path(anchor).absolute()
 
-    if anchor in path.parents:
-        return path.relative_to(anchor)
-    else:
-        print("Error while making the path relative: Anchor is not a parent directory of path. Returning absolute.")
+    try:
+        return Path(os.path.relpath(path, anchor))
+    except:
+        print("Error while trying to make the path relative. Returning absolute path.")
         return path.absolute()
+        

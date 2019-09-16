@@ -1,6 +1,12 @@
 try:
     import utils.discover as discover
     from utils.config_reader import Config
+    from tkinter import filedialog
+    from tkinter import *
+    import os
+
+    tkroot = Tk()
+    tkroot.withdraw()
 
     if len(list(discover.pattern('config.json', '.'))) is not 0:
         print("WARNING: You already have a config.json file. This procedure will overwrite it.")
@@ -26,23 +32,34 @@ try:
         opt = input("Enter the index of the file you wish to use: ")
         return package_jsons[int(opt)]
 
-    repo_root_path = input("Repo root path (can be relative): ")
+    #repo_root_path = input("Repo root path (can be relative): ")
+    repo_root_path = filedialog.askdirectory(title="Select the root directory of the Git Repository...", initialdir='.', mustexist=True)
     package_root_path = None
 
-    package_jsons = list(map(lambda p : str(discover.make_relative(p, '.')), discover.package_json_recursive(repo_root_path)))
-    count = len(package_jsons)
+    perform_search = input("Search for 'package.json' files to automatically obtain the package root path? (y/n): ")
+    
+    if perform_search is 'y':
+        print("Searching for package.json files...")
+        package_jsons = list(map(lambda p : str(discover.make_relative(p, '.')), discover.package_json_recursive(repo_root_path)))
+        count = len(package_jsons)
 
-    if count is 0:
-        print("Cannot find any package.json file in the repository.")
-        print("You need to manually enter your package root path.")
-        package_root_path = input("Package root path (can be relative): ")
-    elif count is 1:
-        print("Found a single package.json file.")
-        package_root_path = discover.directory_of_file(package_jsons[0])
+        if count is 0:
+            print("Cannot find any package.json file in the repository.")
+            print("You need to manually enter your package root path.")
+            #package_root_path = input("Package root path (can be relative): ")
+            package_root_path = filedialog.askdirectory(title="Select the root directory of UPM package...", initialdir=repo_root_path, mustexist=True)
+        elif count is 1:
+            print("Found a single package.json file.")
+            package_root_path = discover.directory_of_file(package_jsons[0])
+        else:
+            print("There are multiple package.json files in the repository.")
+            package_root_path = discover.directory_of_file(pickPackageJson(package_jsons))
     else:
-        print("There are multiple package.json files in the repository.")
-        package_root_path = discover.directory_of_file(pickPackageJson(package_jsons))
+        #package_root_path = input("Package root path (can be relative): ")
+        package_root_path = filedialog.askdirectory(title="Select the root directory of UPM package...", initialdir=repo_root_path, mustexist=True)
 
+    repo_root_path = discover.make_relative(repo_root_path, '.')
+    package_root_path = discover.make_relative(package_root_path, '.')
     writeConfig(repo_root_path, package_root_path)
 
 except Exception as ex:
