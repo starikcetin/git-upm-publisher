@@ -2,7 +2,7 @@ from pathlib import Path
 from git import Repo
 import os
 from datetime import datetime
-#import subprocess
+import subprocess
 
 
 class Git():
@@ -30,14 +30,15 @@ class Git():
         
         package_root_path = Path(package_root_path).absolute()
 
-        # original_cwd = os.getcwd()
-        # print("Changing CWD...")
-        # os.chdir(self.repo_root_path)
-        # print("CWD: " + os.getcwd())
-        # subprocess.run(["git", "snapshot", "--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name])
-        # os.chdir(original_cwd)
+        original_cwd = os.getcwd()
+        print("Changing CWD...")
+        os.chdir(self.repo_root_path)
+        print("CWD: " + os.getcwd())
+        subprocess.run(["npm", "install", "-g", "git-snapshot"], shell=True)
+        subprocess.run(["git", "snapshot", "--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name], shell=True)
+        os.chdir(original_cwd)
 
-        self.repo.git.snapshot("--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name)
+        # self.repo.git.snapshot("--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name)
         
         print("branch after publish: " + self.repo.active_branch.name)
         self.tag(branch_name, version_tag, version_tag)
