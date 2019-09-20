@@ -11,7 +11,7 @@ try:
     package = pm.read()
     package_version = package.get("version")
     print("Version from package.json: "+ package_version)
-    version_tag = package_version + "-upm"
+    version_tag = package_version #+ "-upm"
     print("Version tag: " + version_tag)
 
     print(git.status())
