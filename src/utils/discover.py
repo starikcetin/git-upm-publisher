@@ -1,5 +1,10 @@
 from pathlib import Path
 import os
+from tkinter import filedialog
+from tkinter import *
+
+tkroot = Tk()
+tkroot.withdraw()
 
 def pattern(pattern_, path):
     for filename in Path(path).glob(pattern_):
@@ -35,4 +40,14 @@ def make_relative(path, anchor):
     except:
         print("Error while trying to make the path relative. Returning absolute path.")
         return path.absolute()
-        
+
+def ask_directory(title, initialdir, mustexist):
+    return filedialog.askdirectory(title=title, initialdir=initialdir, mustexist=mustexist)
+
+def ask_repo_root():
+    #repo_root_path = input("Repo root path (can be relative): ")
+    return ask_directory("Select the root directory of the Git Repository...", '.', True)
+
+def ask_package_root(initialdir):
+    #package_root_path = input("Package root path (can be relative): ")
+    return ask_directory("Select the root directory of UPM package...", initialdir, True)
