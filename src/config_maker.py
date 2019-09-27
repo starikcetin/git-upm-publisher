@@ -26,10 +26,16 @@ try:
     def pickPackageJson(package_jsons):
         print("Pick package.json")
         i = 0
+
         for package_json in package_jsons:
-            print(str(i) + '\t' + package_json)
+            print(str(i) + '.\t' + package_json)
             i += 1
-        opt = input("Enter the index of the file you wish to use: ")
+        
+        opt = input("Enter the index of the file you wish to use, or leave empty to select manually via a dialog: ")
+        
+        if opt is '':
+            return -1
+
         return package_jsons[int(opt)]
 
     #repo_root_path = input("Repo root path (can be relative): ")
@@ -53,7 +59,12 @@ try:
             package_root_path = discover.directory_of_file(package_jsons[0])
         else:
             print("There are multiple package.json files in the repository.")
-            package_root_path = discover.directory_of_file(pickPackageJson(package_jsons))
+            package_json_path = pickPackageJson(package_jsons)
+
+            if package_json_path is -1:
+                package_root_path = filedialog.askdirectory(title="Select the root directory of UPM package...", initialdir=repo_root_path, mustexist=True)
+            else:
+                package_root_path = discover.directory_of_file(package_json_path)
     else:
         #package_root_path = input("Package root path (can be relative): ")
         package_root_path = filedialog.askdirectory(title="Select the root directory of UPM package...", initialdir=repo_root_path, mustexist=True)
