@@ -2,6 +2,7 @@ import os
 import utils.wait
 import json
 import jsonpickle
+import utils.discover as discover
 
 class PackageJsonObj:
     def initWithValues(self, package_name: str, display_name: str, unity_min_version: str, description: str, version: str, dependencies: dict):
@@ -35,7 +36,7 @@ class PackageManager:
         self.package_json_path = os.path.join(package_root_path, "package.json")
 
     def exists(self):
-        return os.path.exists(self.package_json_path)
+        return discover.package_json_exist_in_directory(self.package_root_path)
 
     def get_dependencies(self):
         print("Dependencies (one per line, blank to terminate):")
@@ -65,6 +66,9 @@ class PackageManager:
         jsonObj = PackageJsonObj()
         jsonObj.initWithValues(package_name, display_name, unity_min_version, description, version, dependencies)
         self.save(jsonObj)
+
+    def refresh(self):
+        self.read()
 
     def read(self):
         with open(self.package_json_path, "r") as fp:

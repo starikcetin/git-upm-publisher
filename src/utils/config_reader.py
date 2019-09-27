@@ -23,6 +23,9 @@ class Config:
         else:
             return self.config["repo_root_path"]
 
+    def refresh(self):
+        self.read()
+
     def read(self):
         with open("config.json", "r") as config_file:
             self.config = json.load(config_file)

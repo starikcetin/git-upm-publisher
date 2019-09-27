@@ -1,6 +1,7 @@
 try:
     import os
     from utils.config_reader import Config
+    import utils.discover as discover
 
     config = Config()
 
@@ -13,12 +14,13 @@ try:
         import config_maker
 
     cm()
+    config.refresh()
     from utils.package_manager import PackageManager
-    pm = PackageManager(config.package_root_path())
+    package = PackageManager(config.package_root_path())
 
     def pj():
-        if pm.exists():
-            pm.read()
+        if package.exists():
+            package.read()
             print("You already have a package.json file. You can...")
             print("0. Use it as is")
             print("1. Recreate it completely")
@@ -37,6 +39,7 @@ try:
             import package_json_creator
 
     pj()
+    package.refresh()
 
     def up():
         print("Starting upm_publisher")

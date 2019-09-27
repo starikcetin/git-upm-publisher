@@ -51,3 +51,10 @@ def ask_repo_root():
 def ask_package_root(initialdir):
     #package_root_path = input("Package root path (can be relative): ")
     return ask_directory("Select the root directory of UPM package...", initialdir, True)
+
+def file_exist_in_directory(directory, filename):
+    found = pattern(filename, directory)
+    return len(list(found)) > 0
+
+def package_json_exist_in_directory(directory):
+    return file_exist_in_directory(directory, "package.json")
