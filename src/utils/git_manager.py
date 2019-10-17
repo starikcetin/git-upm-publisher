@@ -34,7 +34,7 @@ class Git():
         print("Changing CWD...")
         os.chdir(self.repo_root_path)
         print("CWD: " + os.getcwd())
-        subprocess.run(["npm", "install", "-g", "git-snapshot"], shell=True)
+        subprocess.run(["npm", "install", "-g", "git-snapshot@1.1.2"], shell=True)
         subprocess.run(["git", "snapshot", "--prefix=" + package_root_path.as_posix() + "", "--message=\'" + commit_message + "\'", "--branch=" + branch_name], shell=True)
         os.chdir(original_cwd)
 
