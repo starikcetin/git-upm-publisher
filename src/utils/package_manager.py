@@ -4,8 +4,10 @@ import json
 import jsonpickle
 import utils.discover as discover
 
+
 class PackageJsonObj:
-    def initWithValues(self, package_name: str, display_name: str, unity_min_version: str, description: str, version: str, dependencies: dict):
+    def init_with_values(self, package_name: str, display_name: str, unity_min_version: str, description: str,
+                         version: str, dependencies: dict):
         self.name = package_name
         self.displayName = display_name
 
@@ -16,12 +18,12 @@ class PackageJsonObj:
         self.version = version
         self.dependencies = dependencies
 
-    def initFromDict(self, init_dict: dict):
+    def init_from_dict(self, init_dict: dict):
         for key in init_dict:
             setattr(self, key, init_dict[key])
 
     def get(self, name):
-        return getattr(self, name)
+        return getattr(self, name, '')
 
     def set(self, name, value):
         setattr(self, name, value)
@@ -30,7 +32,7 @@ class PackageJsonObj:
 class PackageManager:
     def __init__(self, package_root_path: str):
         if not os.path.exists(package_root_path):
-             print("Warning: Package root does not exist.")
+            print("Warning: Package root does not exist.")
 
         self.package_root_path = package_root_path
         self.package_json_path = os.path.join(package_root_path, "package.json")
@@ -64,7 +66,7 @@ class PackageManager:
             os.makedirs(self.package_root_path)
 
         jsonObj = PackageJsonObj()
-        jsonObj.initWithValues(package_name, display_name, unity_min_version, description, version, dependencies)
+        jsonObj.init_with_values(package_name, display_name, unity_min_version, description, version, dependencies)
         self.save(jsonObj)
 
     def refresh(self):
@@ -78,9 +80,9 @@ class PackageManager:
             except Exception as ex:
                 raise Exception("package.json file is not valid JSON (" + str(ex) + ")")
             jsonObj = PackageJsonObj()
-            jsonObj.initFromDict(json)
+            jsonObj.init_from_dict(json)
             return jsonObj
 
-    def save(self, jsonObj:PackageJsonObj):
+    def save(self, jsonObj: PackageJsonObj):
         with open(self.package_json_path, "w+") as fp:
             fp.write(json.dumps(json.loads(jsonpickle.encode(jsonObj, unpicklable=False)), indent=4, sort_keys=True))
