@@ -4,11 +4,13 @@ try:
     from tkinter import filedialog
     from tkinter import *
     import os
+    from pathlib import Path
 
     if len(list(discover.pattern('config.json', '.'))) is not 0:
         print("WARNING: You already have a config.json file. This procedure will overwrite it.")
 
-    c = Config()
+    c = Config(Path(input("Config file path: ").join("config.json")))
+
 
     def writeConfig(repo_root_path, package_root_path):
         repo_root_path = str(repo_root_path)
@@ -20,6 +22,7 @@ try:
         c.repo_root_path(repo_root_path)
         c.save()
 
+
     def pickPackageJson(package_jsons):
         print("Pick package.json")
         i = 0
@@ -27,22 +30,24 @@ try:
         for package_json in package_jsons:
             print(str(i) + '.\t' + package_json)
             i += 1
-        
+
         opt = input("Enter the index of the file you wish to use, or leave empty to select manually via a dialog: ")
-        
+
         if opt is '':
             return -1
 
         return package_jsons[int(opt)]
 
+
     repo_root_path = discover.ask_repo_root()
     package_root_path = None
 
     perform_search = input("Search for 'package.json' files to automatically obtain the package root path? (y/n): ")
-    
+
     if perform_search is 'y':
         print("Searching for package.json files...")
-        package_jsons = list(map(lambda p : str(discover.make_relative(p, '.')), discover.package_json_recursive(repo_root_path)))
+        package_jsons = list(
+            map(lambda p: str(discover.make_relative(p, '.')), discover.package_json_recursive(repo_root_path)))
         count = len(package_jsons)
 
         if count is 0:

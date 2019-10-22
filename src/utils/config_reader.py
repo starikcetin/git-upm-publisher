@@ -1,9 +1,12 @@
 import json
 import os
+from pathlib import Path
 
 
 class Config:
-    def __init__(self):
+    def __init__(self, config_file_path: Path):
+        self.config_file_path = config_file_path
+
         if self.exists():
             print("Loading the config.json")
             self.read()
@@ -27,12 +30,12 @@ class Config:
         self.read()
 
     def read(self):
-        with open("config.json", "r") as config_file:
+        with open(self.config_file_path, "r") as config_file:
             self.config = json.load(config_file)
 
     def save(self):
-        with open("config.json", "w+") as config_file:
+        with open(self.config_file_path, "w+") as config_file:
             config_file.write(json.dumps(self.config, indent=4, sort_keys=True))
 
     def exists(self):
-        return os.path.exists("config.json")
+        return self.config_file_path.exists()

@@ -2,8 +2,10 @@ try:
     import os
     from utils.config_reader import Config
     import utils.discover as discover
+    from pathlib import Path
 
-    config = Config()
+    config_file_path = Path(input("Enter config file path: ")).joinpath("config.json")
+    config = Config(config_file_path)
 
     def cm():
         if os.path.exists("config.json"):

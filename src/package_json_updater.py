@@ -1,10 +1,12 @@
+from pathlib import Path
+
 try:
     from utils.package_manager import PackageManager
     from utils.config_reader import Config
     import jsonpickle
     import os
 
-    config = Config()
+    config = Config(Path(input("Config file path: ").join("config.json")))
     pm = PackageManager(config.package_root_path())
 
     if not pm.exists():
