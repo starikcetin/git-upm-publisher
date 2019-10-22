@@ -1,4 +1,6 @@
 import os
+from pathlib import Path
+
 import utils.wait
 import json
 import jsonpickle
@@ -28,14 +30,21 @@ class PackageJsonObj:
     def set(self, name, value):
         setattr(self, name, value)
 
+    def getDependencies(self):
+        return self.get('dependencies')
+
+    def setDependencies(self, deps: dict):
+        self.set('dependencies', deps)
+
 
 class PackageManager:
-    def __init__(self, package_root_path: str):
-        if not os.path.exists(package_root_path):
+    def __init__(self, package_root_path: Path):
+        package_root_path = Path(package_root_path)
+        if not package_root_path.exists():
             print("Warning: Package root does not exist.")
 
         self.package_root_path = package_root_path
-        self.package_json_path = os.path.join(package_root_path, "package.json")
+        self.package_json_path = package_root_path.joinpath("package.json")
 
     def exists(self):
         return discover.package_json_exist_in_directory(self.package_root_path)
@@ -62,8 +71,8 @@ class PackageManager:
         version = input("Version: ")
         dependencies = self.get_dependencies()
 
-        if not os.path.exists(self.package_root_path):
-            os.makedirs(self.package_root_path)
+        if not self.package_root_path.exists():
+            os.makedirs(str(self.package_root_path))
 
         jsonObj = PackageJsonObj()
         jsonObj.init_with_values(package_name, display_name, unity_min_version, description, version, dependencies)

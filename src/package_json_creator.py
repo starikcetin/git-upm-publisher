@@ -1,7 +1,9 @@
+from pathlib import Path
+
 from utils.config_reader import Config
 from utils.package_manager import PackageManager
 
-config = Config()
+config = Config(Path(input("Config file path: ").join("config.json")))
 
 pm = PackageManager(config.package_root_path())
 packageJsonExists = pm.exists()

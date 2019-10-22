@@ -1,10 +1,12 @@
+from pathlib import Path
+
 try:
     from utils.config_reader import Config
     from utils.git_manager import Git
     from utils.package_manager import PackageManager
     import os
 
-    config = Config()
+    config = Config(Path(input("Config file path: ").join("config.json")))
     git = Git(config.repo_root_path())
     pm = PackageManager(config.package_root_path())
 
