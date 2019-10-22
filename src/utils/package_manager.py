@@ -1,9 +1,9 @@
+import json
 import os
 from pathlib import Path
 
-import utils.wait
-import json
 import jsonpickle
+
 import utils.discover as discover
 
 
@@ -30,10 +30,16 @@ class PackageJsonObj:
     def set(self, name, value):
         setattr(self, name, value)
 
-    def getDependencies(self):
+    def get_without_dependencies(self):
+        return {k: v for k, v in self.__dict__.items() if k != 'dependencies'}
+
+    def set_dict(self, dct: dict):
+        self.__dict__.update(dct)
+
+    def get_dependencies(self):
         return self.get('dependencies')
 
-    def setDependencies(self, deps: dict):
+    def set_dependencies(self, deps: dict):
         self.set('dependencies', deps)
 
 
