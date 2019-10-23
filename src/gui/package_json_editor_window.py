@@ -43,7 +43,7 @@ class PackageJsonEditorWindow:
 
         # merge dependencies back in
         json_dependencies = self.json.get_dependencies()
-        result.update(json_dependencies)
+        result['dependencies'] = json_dependencies
 
         return result
 

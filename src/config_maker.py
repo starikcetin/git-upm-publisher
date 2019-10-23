@@ -9,7 +9,7 @@ try:
     if len(list(discover.pattern('config.json', '.'))) is not 0:
         print("WARNING: You already have a config.json file. This procedure will overwrite it.")
 
-    c = Config(Path(input("Config file path: ").join("config.json")))
+    c = Config(Path(input("Config file path: ")).joinpath("config.json"))
 
 
     def writeConfig(repo_root_path, package_root_path):
@@ -75,4 +75,5 @@ try:
 except Exception as ex:
     print("Error: " + str(ex))
 
-input("Press any key to exit.")
+if __name__ == '__main__':
+    input("Press any key to exit.")

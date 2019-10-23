@@ -37,10 +37,18 @@ class PackageJsonObj:
         self.__dict__.update(dct)
 
     def get_dependencies(self):
-        return self.get('dependencies')
+        deps = self.get('dependencies')
+        if isinstance(deps, dict):
+            return deps
+        elif isinstance(deps, str):
+            if not deps.strip():
+                deps = '{}'
+            return json.loads(deps)
+
+        raise Exception("what the fuck?")
 
     def set_dependencies(self, deps: dict):
-        self.set('dependencies', deps)
+        self.set('dependencies', json.dumps(deps))
 
 
 class PackageManager:

@@ -13,7 +13,7 @@ def edit_with_ui(pm: PackageManager):
     pm.save(json_obj)
 
 
-config = Config(Path(input("Config file path: ").join("config.json")))
+config = Config(Path(input("Config file path: ")).joinpath("config.json"))
 
 pm = PackageManager(config.package_root_path())
 packageJsonExists = pm.exists()
