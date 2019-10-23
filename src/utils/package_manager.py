@@ -70,19 +70,10 @@ class PackageManager:
         return inputs
 
     def create(self):
-        package_name = input("Package name: ")
-        display_name = input("Display name: ")
-        unity_min_version = input("Unity min version (blank if doesn't apply): ")
-        description = input("Description: ")
-        version = input("Version: ")
-        dependencies = self.get_dependencies()
-
-        if not self.package_root_path.exists():
-            os.makedirs(str(self.package_root_path))
-
-        jsonObj = PackageJsonObj()
-        jsonObj.init_with_values(package_name, display_name, unity_min_version, description, version, dependencies)
-        self.save(jsonObj)
+        if not self.package_json_path.exists():
+            self.package_root_path.mkdir(parents=True, exist_ok=True)
+            with open(self.package_json_path, 'w'):
+                pass
 
     def refresh(self):
         self.read()
