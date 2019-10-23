@@ -6,7 +6,7 @@ try:
     from utils.package_manager import PackageManager
     import os
 
-    config = Config(Path(input("Config file path: ").join("config.json")))
+    config = Config(Path(input("Config file path: ")).joinpath("config.json"))
     git = Git(config.repo_root_path())
     pm = PackageManager(config.package_root_path())
 
@@ -56,4 +56,5 @@ try:
 except Exception as ex:
     print("Error: " + str(ex))
 
-input("Press any key to exit.")
+if __name__ == '__main__':
+    input("Press any key to exit.")

@@ -1,44 +1,25 @@
 from pathlib import Path
 
-try:
-    from utils.package_manager import PackageManager
-    from utils.config_reader import Config
-    import jsonpickle
-    import os
+from gui.package_json_editor_window import PackageJsonEditorWindow
+from utils.config_reader import Config
+from utils.package_manager import PackageManager, PackageJsonObj
 
-    config = Config(Path(input("Config file path: ").join("config.json")))
-    pm = PackageManager(config.package_root_path())
 
-    if not pm.exists():
-        raise Exception("Cannot locate package.json")
+def edit_with_ui(pm: PackageManager):
+    window = PackageJsonEditorWindow(pm)
+    result = window.launch()
+    json_obj = PackageJsonObj()
+    json_obj.init_from_dict(result)
+    pm.save(json_obj)
 
-    jsonObj = pm.read()
-    
-    print("Enter the key of the property to change, one per line. 'c' to cancel. 's' to save.")
 
-    while True:
-        property_to_change = input("> ")
+config = Config(Path(input("Config file path: ")).joinpath("config.json"))
+pm = PackageManager(config.package_root_path())
 
-        if(property_to_change == "c"):
-            raise Exception("Cancelled by user")
-        elif(property_to_change == "s"):
-            break
+if not pm.exists():
+    raise Exception("Cannot locate package.json")
 
-        try:
-            current_value = jsonObj.get(property_to_change)
-            print("Current value: " + str(current_value))
-        except:
-            print("Key not found.")
-            continue
+edit_with_ui(pm)
 
-        new_value = input("New value: ")
-        jsonObj.set(property_to_change, new_value)
-
-    pm.save(jsonObj)
-    print("Done.")
-    
-
-except Exception as exc:
-    print("Error: " + str(exc))
-
-input("Press any key to exit.")
+if __name__ == '__main__':
+    input("Press any key to exit.")
