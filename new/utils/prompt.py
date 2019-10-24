@@ -2,5 +2,6 @@ from pathlib import Path
 
 
 class Prompt:
-    def file(self) -> Path:
+    @staticmethod
+    def file() -> Path:
         pass

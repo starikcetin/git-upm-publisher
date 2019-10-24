@@ -1,19 +1,21 @@
-from pathlib import Path
-
-from modules.config_file_finder import ConfigFileFinder
-from modules.config_maker import ConfigMaker
-from modules.package_maker import PackageMaker
+from utils.config_file_finder import ConfigFileFinder
 from modules.publisher import Publisher
+from utils.git import Git
 from wrappers.config_wrapper import ConfigWrapper
 from wrappers.package_wrapper import PackageWrapper
 
 
-class GitUpmPublisher(ConfigFileFinder, ConfigMaker, PackageMaker, Publisher):
+class GitUpmPublisher:
+    def __init__(self):
+        config_file_path = ConfigFileFinder.find()
+
+        self.config_wrapper: ConfigWrapper = ConfigWrapper(config_file_path)
+        self.package_wrapper: PackageWrapper = PackageWrapper(self.config_wrapper.package_file_path)
+        self.git: Git = Git(self.config_wrapper.repo_root_folder_path)
+        self.publisher: Publisher = Publisher(self.config_wrapper, self.package_wrapper, self.git)
+
     def run(self):
-        config_file_path: Path = super().find_config_file()
-        config_wrapper: ConfigWrapper = super().make_config(config_file_path)
-        package_wrapper: PackageWrapper = super().make_package(config_wrapper)
-        super().publish(package_wrapper)
+        self.publisher.publish()
 
 
 if __name__ == '__main__':
