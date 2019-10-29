@@ -70,4 +70,5 @@ try:
 except Exception as ex:
     print("Error: " + str(ex))
 
-input("Press any key to exit.")
+if __name__ == '__main__':
+    input("Press any key to exit.")

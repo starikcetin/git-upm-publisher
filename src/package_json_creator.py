@@ -13,4 +13,6 @@ pm.create()
 
 print("Done. File location: " + pm.package_json_path)
 print("Don't forget to generate the meta file for the package.json by switching to Unity Editor.")
-input("Press any key to exit.")
+
+if __name__ == '__main__':
+    input("Press any key to exit.")
