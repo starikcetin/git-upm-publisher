@@ -8,7 +8,7 @@ try:
     def cm():
         if os.path.exists("config.json"):
             overwrite_config = input("You already have a config.json file. Do you want to reconfigure it? (y/n): ")
-            if overwrite_config is not 'y':
+            if overwrite_config != 'y':
                 return
         print("Starting config_maker")
         import config_maker
@@ -26,12 +26,12 @@ try:
             print("1. Recreate it completely")
             print("2. Update it partially")
             opt = int(input("Enter the index of your choice: "))
-            if opt is 0:
+            if opt == 0:
                 return
-            if opt is 1:
+            if opt == 1:
                 print("Starting package_json_creator")
                 import package_json_creator
-            if opt is 2:
+            if opt == 2:
                 print("Starting package_json_updater")
                 import package_json_updater
         else:

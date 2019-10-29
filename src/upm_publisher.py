@@ -17,7 +17,7 @@ try:
     print(git.status())
     shouldPush = input("Fetch before starting? (y/n): ")
     
-    if shouldPush is 'y':
+    if shouldPush == 'y':
         git.fetch()
         print(git.status())
 
@@ -29,14 +29,14 @@ try:
         print("\t2. Clean -> publish (will erase all changes)")
         opt = input("Pick an index: ")
 
-        if opt is '0':
+        if opt == '0':
             raise Exception("Cancelled by user.")
-        elif opt is '1':
+        elif opt == '1':
             temp_commit_message = "!!! TEMP COMMIT CREATED BY git-upm-publisher, WILL BE SOFT RESET !!!\n\nThis commit should be gone after everything is done, if you see it in your repository after publisher is done, something went wrong. Send me a bug report over GitHub.\n\nYou can manually soft-reset this commit if you wish."
             git.commitAll(temp_commit_message)
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
             git.softResetLastCommit()
-        elif opt is '2':
+        elif opt == '2':
             git.clean()
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
         else:
@@ -47,7 +47,7 @@ try:
     print(git.status())
     shouldPush = input("Push everything? (y/n): ")
 
-    if shouldPush is 'y':
+    if shouldPush == 'y':
         git.pushAll()
         print(git.status())
 
