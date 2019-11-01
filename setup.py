@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="git-upm-publisher",
-    version="0.0.1",
+    version="0.0.2",
     author="starikcetin <cetinsamedtarik@gmail.com> (https://github.com/starikcetin)",
     author_email="cetinsamedtarik@gmail.com",
     description="Automate UPM package releases for Git repositories containing Unity plugins.",
@@ -25,11 +25,11 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'gup = git_upm_publisher.main:main',
-            'gup.main = git_upm_publisher.main:main',
-            'gup.config-maker = git_upm_publisher.config_maker:main',
-            'gup.package-json-creator = git_upm_publisher.package_json_creator:main',
-            'gup.package-json-updater = git_upm_publisher.package_json_updater:main',
-            'gup.upm-publisher = git_upm_publisher.upm_publisher:main',
+            'gup-main = git_upm_publisher.main:main',
+            'gup-config-maker = git_upm_publisher.config_maker:main',
+            'gup-package-json-creator = git_upm_publisher.package_json_creator:main',
+            'gup-package-json-updater = git_upm_publisher.package_json_updater:main',
+            'gup-upm-publisher = git_upm_publisher.upm_publisher:main',
         ],
     },
 )
