@@ -5,7 +5,7 @@ from datetime import datetime
 import subprocess
 
 
-class Git():
+class Git:
     def __init__(self, repo_root_path):
         self.repo_root_path = repo_root_path
         self.dotgit_path = os.path.join(repo_root_path, ".git/")
@@ -19,7 +19,7 @@ class Git():
         print("Tagging")
         self.repo.git.tag("-a", name, commit, "-m", message)
 
-    def commitAll(self, message):
+    def commit_all(self, message):
         print("Comitting all")
         self.repo.git.add("--all")
         self.repo.git.commit("-m", "\"" + message + "\"")
@@ -43,7 +43,7 @@ class Git():
         print("branch after publish: " + self.repo.active_branch.name)
         self.tag(branch_name, version_tag, version_tag)
 
-    def softResetLastCommit(self):
+    def soft_reset_last_commit(self):
         print("Soft resetting last commit")
         self.repo.git.reset("--soft", "HEAD~1")
 
@@ -58,7 +58,7 @@ class Git():
             print("Still dirty after stash, doing a hard reset")
             self.repo.git.reset("--hard")
 
-    def pushAll(self):
+    def push_all(self):
         print("Pushing")
         self.repo.git.push("--all")
         self.repo.git.push("--tags")
@@ -70,4 +70,3 @@ class Git():
     def fetch(self):
         print("Fetching")
         self.repo.git.fetch("--all")
-        

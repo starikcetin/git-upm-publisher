@@ -1,23 +1,23 @@
-try:
-    from utils.config_reader import Config
-    from utils.git_manager import Git
-    from utils.package_manager import PackageManager
-    import os
+from git_upm_publisher.utils.config_reader import Config
+from git_upm_publisher.utils.git_manager import Git
+from git_upm_publisher.utils.package_manager import PackageManager
 
+
+def main():
     config = Config()
     git = Git(config.repo_root_path())
     pm = PackageManager(config.package_root_path())
 
     package = pm.read()
     package_version = package.get("version")
-    print("Version from package.json: "+ package_version)
-    version_tag = package_version #+ "-upm"
+    print("Version from package.json: " + package_version)
+    version_tag = package_version  # + "-upm"
     print("Version tag: " + version_tag)
 
     print(git.status())
-    shouldPush = input("Fetch before starting? (y/n): ")
-    
-    if shouldPush == 'y':
+    should_push = input("Fetch before starting? (y/n): ")
+
+    if should_push == 'y':
         git.fetch()
         print(git.status())
 
@@ -33,9 +33,9 @@ try:
             raise Exception("Cancelled by user.")
         elif opt == '1':
             temp_commit_message = "!!! TEMP COMMIT CREATED BY git-upm-publisher, WILL BE SOFT RESET !!!\n\nThis commit should be gone after everything is done, if you see it in your repository after publisher is done, something went wrong. Send me a bug report over GitHub.\n\nYou can manually soft-reset this commit if you wish."
-            git.commitAll(temp_commit_message)
+            git.commit_all(temp_commit_message)
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
-            git.softResetLastCommit()
+            git.soft_reset_last_commit()
         elif opt == '2':
             git.clean()
             git.publish(config.package_root_path(), "upm release", "upm", version_tag)
@@ -45,14 +45,13 @@ try:
         git.publish(config.package_root_path(), "upm release", "upm", version_tag)
 
     print(git.status())
-    shouldPush = input("Push everything? (y/n): ")
+    should_push = input("Push everything? (y/n): ")
 
-    if shouldPush == 'y':
-        git.pushAll()
+    if should_push == 'y':
+        git.push_all()
         print(git.status())
 
-except Exception as ex:
-    print("Error: " + str(ex))
 
 if __name__ == '__main__':
+    main()
     input("Press any key to exit.")
