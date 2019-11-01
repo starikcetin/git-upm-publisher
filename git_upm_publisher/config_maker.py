@@ -5,41 +5,41 @@ from git_upm_publisher.utils import discover
 def main():
     if len(list(discover.pattern('config.json', '.'))) != 0:
         print("WARNING: You already have a config.json file. This procedure will overwrite it.")
-        c = Config()
 
-        repo_root_path = discover.ask_repo_root()
+    c = Config()
 
-        perform_search = input(
-            "Search for 'package.json' files to automatically obtain the package root path? (y/n): ")
+    repo_root_path = discover.ask_repo_root()
 
-        if perform_search == 'y':
-            print("Searching for package.json files...")
-            package_jsons = list(
-                map(lambda p: str(discover.make_relative(p, '.')),
-                    discover.package_json_recursive(repo_root_path)))
-            count = len(package_jsons)
+    perform_search = input("Search for 'package.json' files to automatically obtain the package root path? (y/n): ")
 
-            if count == 0:
-                print("Cannot find any package.json file in the repository.")
-                print("You need to manually enter your package root path.")
-                package_root_path = discover.ask_package_root(repo_root_path)
-            elif count == 1:
-                print("Found a single package.json file.")
-                package_root_path = discover.directory_of_file(package_jsons[0])
-            else:
-                print("There are multiple package.json files in the repository.")
-                package_json_path = pick_package_json(package_jsons)
+    if perform_search == 'y':
+        print("Searching for package.json files...")
+        package_jsons = list(
+            map(lambda p: str(discover.make_relative(p, '.')),
+                discover.package_json_recursive(repo_root_path)))
+        count = len(package_jsons)
 
-                if package_json_path == -1:
-                    package_root_path = discover.ask_package_root(repo_root_path)
-                else:
-                    package_root_path = discover.directory_of_file(package_json_path)
-        else:
+        if count == 0:
+            print("Cannot find any package.json file in the repository.")
+            print("You need to manually enter your package root path.")
             package_root_path = discover.ask_package_root(repo_root_path)
+        elif count == 1:
+            print("Found a single package.json file.")
+            package_root_path = discover.directory_of_file(package_jsons[0])
+        else:
+            print("There are multiple package.json files in the repository.")
+            package_json_path = pick_package_json(package_jsons)
 
-        repo_root_path = discover.make_relative(repo_root_path, '.')
-        package_root_path = discover.make_relative(package_root_path, '.')
-        write_config(repo_root_path, package_root_path, c)
+            if package_json_path == -1:
+                package_root_path = discover.ask_package_root(repo_root_path)
+            else:
+                package_root_path = discover.directory_of_file(package_json_path)
+    else:
+        package_root_path = discover.ask_package_root(repo_root_path)
+
+    repo_root_path = discover.make_relative(repo_root_path, '.')
+    package_root_path = discover.make_relative(package_root_path, '.')
+    write_config(repo_root_path, package_root_path, c)
 
 
 def write_config(repo_root_path, package_root_path, c: Config):
