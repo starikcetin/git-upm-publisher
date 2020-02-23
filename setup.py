@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="git-upm-publisher",
-    version="0.0.4",
+    version="0.0.5",
     author="starikcetin <cetinsamedtarik@gmail.com> (https://github.com/starikcetin)",
     author_email="cetinsamedtarik@gmail.com",
     description="Automate UPM package releases for Git repositories containing Unity plugins.",

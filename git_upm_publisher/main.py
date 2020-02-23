@@ -1,3 +1,6 @@
+import warnings
+warnings.warn("This package is deprecated in favor of [git-upm-publisher-2](https://github.com/starikcetin/git-upm-publisher-2).", DeprecationWarning)
+
 import os
 from git_upm_publisher.utils.config_reader import Config
 from git_upm_publisher.utils.package_manager import PackageManager
