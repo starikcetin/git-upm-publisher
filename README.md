@@ -1,6 +1,6 @@
 This package is deprecated in favor of [git-upm-publisher-2](https://github.com/starikcetin/git-upm-publisher-2).
 
-The new package is written in JS. It is much more stable and doesn't have the annoying package resolution bugs of python.
+The new package is written in Typescript. It is much more stable and doesn't have the annoying package resolution bugs of python.
 
 ---
 
